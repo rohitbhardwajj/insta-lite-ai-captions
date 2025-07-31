@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("./../models/user.model");
+const bcrypt = require("bcryptjs")
 
 async function signupController(req, res) {
   const { username, password } = req.body;
@@ -17,7 +18,9 @@ async function signupController(req, res) {
       return res.status(400).json({ error: "Username already exists" });
     }
 
-    const newUser = await userModel.create({ username, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await userModel.create({ username, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
     res.cookie("token", token);
@@ -30,7 +33,6 @@ async function signupController(req, res) {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
-
 
 async function loginController(req, res) {
   const { username, password } = req.body;
@@ -48,13 +50,14 @@ async function loginController(req, res) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
-    if (userData.password !== password) {
+    // ✅ Correct way to compare hashed password
+    const isPasswordValid = await bcrypt.compare(password, userData.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
     const token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET);
-
-    res.cookie("token", token, {});
+    res.cookie("token", token);
 
     return res.status(200).json({ message: "User login successful" });
   } catch (err) {
@@ -63,9 +66,7 @@ async function loginController(req, res) {
   }
 }
 
-module.exports = {
-  loginController,
-};
+
 
 module.exports = {
   signupController,
