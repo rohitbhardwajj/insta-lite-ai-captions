@@ -50,7 +50,7 @@ async function loginController(req, res) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
-    // ✅ Correct way to compare hashed password
+    
     const isPasswordValid = await bcrypt.compare(password, userData.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid username or password" });
