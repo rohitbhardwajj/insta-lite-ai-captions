@@ -1,10 +1,6 @@
 const routes = require("express").Router();
-const {userController} = require("../controllers/posts.controller")
-
-
-
-routes.post("/post" , userController)
-
-
+const authMiddleware = require("./../middlewares/auth.middleware")
+const createPostController = require("../controllers/createpost.controller")
+routes.post("/post", authMiddleware , createPostController);
 
 module.exports = routes;
