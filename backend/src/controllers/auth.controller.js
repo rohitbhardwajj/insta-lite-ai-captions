@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs")
 
 async function signupController(req, res) {
   const { username, password } = req.body;
-
+  console.log(username, password);
   if (!username || !password) {
     return res
       .status(400)

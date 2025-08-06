@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+} 
+
+html,body{
+   height: 100vh;
+ width: 100vw;
+  background-size: cover;
+  overflow: hidden;
+  background-color: #0F2F4D;
+}
+
+html , body #root{
+ height: 100vh;
+ width: 100vw;
+ /* background-image: url("https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?cs=srgb&dl=pexels-francesco-ungaro-1525041.jpg&fm=jpg"); */
+ display: flex;
+ justify-content: center;
+ background-size: cover;
+ align-items: center;
+
+}
+
+ 
