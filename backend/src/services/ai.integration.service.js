@@ -1,5 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-
+require("dotenv").config();
 const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 async function generateCaptions(base64ImageFile) {
@@ -28,3 +28,5 @@ async function generateCaptions(base64ImageFile) {
 }
 
 module.exports = generateCaptions;
+
+
