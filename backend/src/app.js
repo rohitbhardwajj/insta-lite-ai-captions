@@ -16,6 +16,12 @@ app.use(cors({
   origin: "https://insta-lite-ai-captions.vercel.app",
   credentials: true
 }));
+app.options("*", cors({
+  origin: "https://insta-lite-ai-captions.vercel.app",
+  credentials: true
+}));
+
+
 
 
 app.get("/api/verify-token", (req, res) => {
