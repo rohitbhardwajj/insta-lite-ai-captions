@@ -33,7 +33,7 @@ app.get("/api/verify-token", (req, res) => {
 app.post("/api/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false, 
+    secure: true, 
     sameSite: "lax"
   });
   res.status(200).json({ message: "Logged out successfully" });
