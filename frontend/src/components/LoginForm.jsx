@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import "./LoginForm.css";
 import { UserContext } from "../Context/UserContext";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
   const { username, setUsername, setIsUserLoggedIn } = useContext(UserContext);
@@ -24,10 +26,10 @@ const LoginForm = () => {
         { withCredentials: true }
       );
 
-      alert(response.data.message);
+      toast.success(response.data.message);
       setIsUserLoggedIn(true);
     } catch (error) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Something went wrong or Username already exists"
       );

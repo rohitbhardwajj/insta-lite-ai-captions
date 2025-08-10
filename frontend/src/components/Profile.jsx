@@ -2,6 +2,8 @@ import './Profile.css';
 import axios from 'axios';
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../Context/UserContext";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
   const [image, setImage] = useState(null);
@@ -18,7 +20,7 @@ const Profile = () => {
       });
       setPostData(response.data.data || []);
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      toast.error("Error fetching posts");
     } finally {
       setLoadingPosts(false);
     }
@@ -30,7 +32,7 @@ const Profile = () => {
 
   const createPost = async () => {
     if (!image) {
-      alert("Please select an image first.");
+      toast.warning("Please select an image first.");
       return;
     }
 
@@ -44,10 +46,10 @@ const Profile = () => {
         withCredentials: true
       });
 
-      alert(response.data.message || "Post created successfully!");
+      toast.success(response.data.message || "Post created successfully!");
       fetchData();
     } catch (error) {
-      alert("Image upload failed");
+      toast.error("Image upload failed");
     } finally {
       setUploading(false);
     }
@@ -63,8 +65,9 @@ const Profile = () => {
       await axios.post('http://localhost:3000/api/logout', {}, { withCredentials: true });
       setPostData([]);
       setIsUserLoggedIn(false);
+      toast.info("Logged out successfully!");
     } catch (error) {
-      console.error("Logout failed:", error);
+      toast.error("Logout failed");
     }
   };
 

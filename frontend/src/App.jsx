@@ -3,13 +3,15 @@ import LoginForm from './components/LoginForm';
 import { useContext, useEffect } from "react";         
 import { UserContext } from "../src/Context/UserContext";
 import axios from 'axios';
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const { isUserLoggedIn, setIsUserLoggedIn } = useContext(UserContext);
 
   useEffect(() => {
     axios.get("http://localhost:3000/api/verify-token", {
-      withCredentials: true // cookie automatically send
+      withCredentials: true
     })
     .then(() => setIsUserLoggedIn(true))
     .catch(() => setIsUserLoggedIn(false));
@@ -18,6 +20,16 @@ const App = () => {
   return (
     <div>
       {isUserLoggedIn ? <Profile /> : <LoginForm />}
+      <ToastContainer 
+        position="bottom-right" 
+        autoClose={3000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        pauseOnHover 
+        draggable 
+        theme="colored" 
+      />
     </div>
   );
 };
