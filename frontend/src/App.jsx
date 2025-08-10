@@ -10,7 +10,7 @@ const App = () => {
   const { isUserLoggedIn, setIsUserLoggedIn } = useContext(UserContext);
 
   useEffect(() => {
-    axios.get("https://insta-lite-ai-captions.onrender.com/verify-token", {
+    axios.get("http://localhost:5000/verify-token", {  // <-- Local backend URL
       withCredentials: true
     })
     .then(() => setIsUserLoggedIn(true))

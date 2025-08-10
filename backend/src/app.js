@@ -9,13 +9,14 @@ const postRoutes = require('./routes/posts.routes');
 
 const app = express();
 
+// CORS setup for local frontend
 app.use(cors({
-  origin: "https://insta-lite-ai-captions.vercel.app",
+  origin: "http://localhost:5173",  
   credentials: true
 }));
+
 app.use(express.json());
 app.use(cookieParser());
-
 
 app.get("/verify-token", (req, res) => {
   const token = req.cookies?.token;
@@ -27,12 +28,11 @@ app.get("/verify-token", (req, res) => {
   });
 });
 
-
 app.post("/api/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false, 
-    sameSite: "lax" 
+    secure: false,  // local development me false rakhna hai (https na hone par)
+    sameSite: "lax"
   });
   res.status(200).json({ message: "Logged out successfully" });
 });

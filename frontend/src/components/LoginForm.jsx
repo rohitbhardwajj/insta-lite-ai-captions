@@ -15,9 +15,10 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Local backend URLs
     const endpoint = showLogin
-      ? "https://insta-lite-ai-captions.onrender.com/api/auth/login"
-      : "https://insta-lite-ai-captions.onrender.com/api/auth/signup";
+      ? "http://localhost:5000/api/auth/login"
+      : "http://localhost:5000/api/auth/signup";
 
     try {
       const response = await axios.post(
