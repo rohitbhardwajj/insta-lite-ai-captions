@@ -15,7 +15,7 @@ const Profile = () => {
   const fetchData = async () => {
     setLoadingPosts(true);
     try {
-      const response = await axios.get('http://localhost:3000/api/post', {
+      const response = await axios.get('https://insta-lite-ai-captions.onrender.com/api/post', {
         withCredentials: true
       });
       setPostData(response.data.data || []);
@@ -41,7 +41,7 @@ const Profile = () => {
     setUploading(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/post', formData, {
+      const response = await axios.post('https://insta-lite-ai-captions.onrender.com/api/post', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });
@@ -62,7 +62,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3000/api/logout', {}, { withCredentials: true });
+      await axios.post('https://insta-lite-ai-captions.onrender.com/api/logout', {}, { withCredentials: true });
       setPostData([]);
       setIsUserLoggedIn(false);
       toast.info("Logged out successfully!");

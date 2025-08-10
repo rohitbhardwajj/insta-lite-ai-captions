@@ -16,8 +16,8 @@ const LoginForm = () => {
     setLoading(true);
 
     const endpoint = showLogin
-      ? "http://localhost:3000/api/auth/login"
-      : "http://localhost:3000/api/auth/signup";
+      ? "https://insta-lite-ai-captions.onrender.com/api/auth/login"
+      : "https://insta-lite-ai-captions.onrender.com/api/auth/signup";
 
     try {
       const response = await axios.post(
