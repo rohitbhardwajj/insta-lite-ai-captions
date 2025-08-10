@@ -9,15 +9,16 @@ const postRoutes = require('./routes/posts.routes');
 
 const app = express();
 
+// Fix: origin WITHOUT trailing slash
 app.use(cors({
-  origin: "https://insta-lite-ai-captions.vercel.app",
+  origin: "https://insta-lite-ai-captions.vercel.app/",
   credentials: true
 }));
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/api/verify-token", (req, res) => {
+app.get("/verify-token", (req, res) => {
   const token = req.cookies?.token;
   if (!token) return res.status(401).json({ message: "No token" });
 
@@ -27,11 +28,12 @@ app.get("/api/verify-token", (req, res) => {
   });
 });
 
+// Adjusted logout cookie options for local HTTP development
 app.post("/api/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: true, 
-    sameSite: "none"
+    secure: false, // Must be false on localhost HTTP
+    sameSite: "lax" // Or "lax" for localhost, "none" for HTTPS in production
   });
   res.status(200).json({ message: "Logged out successfully" });
 });
