@@ -31,8 +31,8 @@ app.get("/verify-token", (req, res) => {
 app.post("/api/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,  // local development me false rakhna hai (https na hone par)
-    sameSite: "lax"
+    secure: true,  
+    sameSite: "none"
   });
   res.status(200).json({ message: "Logged out successfully" });
 });

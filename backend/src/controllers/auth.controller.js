@@ -28,8 +28,8 @@ async function signupController(req, res) {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
   res.cookie("token", token, {
   httpOnly: true,
-  secure: false,      
-  sameSite: "lax",    
+  secure: true,      
+  sameSite: "none",    
   maxAge: 24 * 60 * 60 * 1000,
 });
 
@@ -67,8 +67,8 @@ async function loginController(req, res) {
     const token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET);
  res.cookie("token", token, {
   httpOnly: true,
-  secure: false,      
-  sameSite: "lax",    
+  secure: true,      
+  sameSite: "none",    
   maxAge: 24 * 60 * 60 * 1000,
 });
 
