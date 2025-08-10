@@ -13,13 +13,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "https://insta-lite-ai-captions.vercel.app",
+  origin: "https://insta-lite-ai-captions.vercel.app/",
   credentials: true
 }));
 app.options("*", cors({
-  origin: "https://insta-lite-ai-captions.vercel.app",
+  origin: "https://insta-lite-ai-captions.vercel.app/",
   credentials: true
 }));
+
 
 
 
