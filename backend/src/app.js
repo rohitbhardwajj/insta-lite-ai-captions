@@ -9,15 +9,15 @@ const postRoutes = require('./routes/posts.routes');
 
 const app = express();
 
-// Middlewares
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "https://insta-lite-ai-captions.vercel.app/",
+  origin: "https://insta-lite-ai-captions.vercel.app",
   credentials: true
 }));
 
-// Verify token route
+
 app.get("/api/verify-token", (req, res) => {
   const token = req.cookies?.token;
   if (!token) return res.status(401).json({ message: "No token" });
