@@ -1,14 +1,45 @@
 const express = require('express');
-const app = express();
-const authRoutes = require('./routes/auth.routes');
-const postRoutes = require('./routes/posts.routes')
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
-app.use(cookieParser())
-app.use(cors());
+const authRoutes = require('./routes/auth.routes');
+const postRoutes = require('./routes/posts.routes');
+
+const app = express();
+
+// Middlewares
 app.use(express.json());
-app.use('/api/auth', authRoutes);
-app.use('/' , postRoutes);
+app.use(cookieParser());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
-module.exports = app; 
+// Verify token route
+app.get("/api/verify-token", (req, res) => {
+  const token = req.cookies?.token;
+  if (!token) return res.status(401).json({ message: "No token" });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+    if (err) return res.status(401).json({ message: "Invalid token" });
+    res.json({ message: "Valid token" });
+  });
+});
+
+
+app.post("/api/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false, 
+    sameSite: "lax"
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+
+app.use('/api/auth', authRoutes);
+app.use('/api', postRoutes);
+
+module.exports = app;

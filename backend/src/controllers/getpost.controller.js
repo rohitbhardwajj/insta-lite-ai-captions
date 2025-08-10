@@ -4,7 +4,7 @@ async function getPosts(req, res) {
   try {
     const id = req.user._id;
 
-    const data = await postModels.findOne({ userId: id }); 
+    const data = await postModels.find({ userId: id }); 
 
     res.status(200).json({
       message: "User fetched successfully",

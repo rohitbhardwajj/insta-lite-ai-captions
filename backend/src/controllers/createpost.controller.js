@@ -5,6 +5,7 @@ const postModels = require("../models/post.model");
 const jwt = require("jsonwebtoken");
 
 const createPost = async (req, res) => {
+  console.log("REQ FILE", req.file);
   const token = req.cookies.token;
   try {
     const decode = jwt.verify(token, process.env.JWT_SECRET);

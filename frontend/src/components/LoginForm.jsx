@@ -1,28 +1,38 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import "./LoginForm.css";
+import { UserContext } from "../Context/UserContext";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
+  const { username, setUsername, setIsUserLoggedIn } = useContext(UserContext);
   const [password, setPassword] = useState("");
-  const handleLogin = async () => {
+  const [showLogin, setShowLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const endpoint = showLogin
+      ? "http://localhost:3000/api/auth/login"
+      : "http://localhost:3000/api/auth/signup";
+
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
-        {
-          username: username,
-          password: password,
-        }
+        endpoint,
+        { username, password },
+        { withCredentials: true }
       );
 
       alert(response.data.message);
-      console.log("Response from backend:", response.data);
+      setIsUserLoggedIn(true);
     } catch (error) {
-      if (error.response) {
-        console.error("Error response:", error.response.data);
-      } else {
-        console.error("Error:", error.message);
-      }
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong or Username already exists"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -34,32 +44,23 @@ const LoginForm = () => {
           alt=""
         />
       </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleLogin();
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="login-container">
-          <h1>Sign-up</h1>
+          <h1>{showLogin ? "Login" : "Sign-up"}</h1>
           <div className="mid-login-page">
             <input
               value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
+              onChange={(e) => setUsername(e.target.value)}
               type="text"
-              id="username"
               placeholder="Enter Username"
+              required
             />
             <input
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
-              id="password"
               placeholder="Enter Password"
+              required
             />
 
             <div className="forget">
@@ -71,7 +72,27 @@ const LoginForm = () => {
                 <a href="#">Forget</a>
               </div>
             </div>
-            <button>Complete</button>
+
+            <button type="submit" disabled={loading}>
+              {loading ? <div className="loader"></div> : showLogin ? "Login" : "Sign up"}
+            </button>
+
+            <button
+              type="button"
+              style={{
+                marginTop: "10px",
+                backgroundColor: "#555",
+                color: "white",
+                padding: "8px",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+              onClick={() => setShowLogin(!showLogin)}
+            >
+              {showLogin
+                ? "Don't have an account? Sign up"
+                : "Already have an account? Login"}
+            </button>
           </div>
         </div>
       </form>

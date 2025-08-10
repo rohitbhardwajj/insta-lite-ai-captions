@@ -23,7 +23,13 @@ async function signupController(req, res) {
     const newUser = await userModel.create({ username, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+  httpOnly: true,
+  secure: false, // true if using HTTPS
+  sameSite: "Lax", // or "None" if cross-origin
+  maxAge: 24 * 60 * 60 * 1000, // 1 day
+});
+
 
     return res
       .status(201)
