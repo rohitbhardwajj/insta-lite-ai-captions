@@ -11,7 +11,7 @@ const app = express();
 
 // CORS setup for local frontend
 app.use(cors({
-  origin: "https://insta-lite-ai-captions.vercel.app",  
+  origin: "https://insta-lite-ai-captions.vercel.app/",  
   credentials: true
 }));
 
